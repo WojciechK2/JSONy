@@ -1,0 +1,333 @@
+[
+  {
+    "Title": "Hero gains knowledge about capturing his brother while reading the Advertising_column/ Bohater zdobywa wiedzę o uwięzieniu jego brata podczas czytania tablicy ogloszeń.",
+    "TitleGeneric": "Getting knowledge from item / Pozyskanie wiedzy z przedmiotu",
+    "Description": "Tablica ogoszeń zawiera listę ostatnio aresztowanych przestępców. Serce zamiera kiedy pomiędzy imionami i nazwiskami odnajdujesz swojego brata. Niech ktoś... Trzeba działać. Może informacja o możliwości dostarczenia posiłków z karczmy za opłatą okaże się pomocna.",
+    "Override": 0,
+    "LSide": {
+      "Locations": [
+        //Musi się to dziać w porcie przy tablicy ogłoszeń
+        "Name":"Port",
+        "Characters": [
+            {
+                "Name": "Main_hero",
+                "IsObject": true
+            }
+        ],
+        "Items": [{
+          //Tablica ogoszen w lokacji Port, należy dodać do świata
+          "Name": "Advertising_column"
+          //TODO: add a bulletin board to the world set
+          }]
+    ]},
+    "RSide": {},
+    "Instructions": [
+              {
+                "Op": "copy",
+                "In": "Main_hero/Narration",
+                "Sheaf": {
+                    "Name": "Brother_quest_start_active",
+                    "Attributes": {
+                        "Knowledge": "Brat siedzi w więzieniu. Trzeba go wydostać."
+                    }
+                }
+            },
+            //Przekazanie Węzła narracyjnego. Cel misji.
+            //Węzły muszą zostać stworzone w świecie.
+            {
+              "Op": "copy",
+              "In": "Main_hero/Narration",
+              "Sheaf": {
+                  "Name": "Tavern_hint",
+                  "Attributes": {
+                      "Knowledge": "Możliwość dostarczenia posiłków dla więznia za opłatą, może okazać się pomocna."
+                  }
+              }
+          }
+          //Przekazanie Węzła narracyjnego. Cel misji.
+          //Węzły muszą zostać stworzone w świecie.
+          //Informacja o możliwości udzielenia pomocy.
+        ]
+  },
+  {
+    "Title": "Convincing a Maid/ Przekonanie Karczmarki.",
+    "TitleGeneric": "Item creation / Utworzenie przedmiotu",
+    "Description": "Main_hero spotyka Maid, którą przekonuje do pomocy w uwolnieniu brata. Karczmarka przygotowuje pakunek który ma zostać dostarczony do więźnia. Sugeuje też zakup alkokolu \"Drobny prezent może zwiększyć przychylność strażników.\"",
+    "Override": 0,
+    "LSide": {
+      "Locations": [
+          {
+              "Id": "Inn",
+              "Characters": [
+                  {
+                      "Name": "Main_hero",
+                      "IsObject": true
+                  },
+                  {
+                      "Name": "Miss"
+                  }
+              ]
+          }
+      ]
+    },
+    "RSide": {},
+    "Instructions": [
+      {
+          "Op": "create",
+          "In": "Miss/Items",
+          "Sheaf": {
+              "Name": "Mutton_Chop",
+          }
+          //TODO: zrobić przedmiot w przedmiocie, drabinka sznurowa w posiłku
+      },
+      {
+          "Op": "create",
+          "In": "Miss/Items/Mutton_Chop",
+          "Sheaf": {
+              "Name": "Ladder", //-> można wstawić pilnik, jest dostępny on the fly
+          }
+          //TODO: zrobić przedmiot w przedmiocie, drabinka sznurowa w posiłku
+      },
+      {
+          "Op": "move",
+          "In": "Main_hero/Items/",
+          "Node": {
+              "Name": "Mutton_Chop",
+          }
+          //TODO: przekazanie posiłku z powrotem do glownego bohatera
+      },
+      {
+        "Op": "create",
+        "In": "Main_hero/Narration",
+        "Sheaf": {
+          "Name": "Miss_debt",
+          //TODO: sprawdzić jak druga grupa to nazwała
+          "Attributes": {
+            "Knowledge": "Karczmarka ma u Ciebie dług wdzięczności"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "Title": "Paying a guard in order to deliver food to a prisoner / Zapłacenie straznikowi za możliwość dostarczenia jedzenia więźniom.",
+    "TitleGeneric": "Item acquisition from another character / Przejęcie przedmiotu od innej postaci",
+    "Description": "Umieszczenie opłaty za dostarczenie paczki z jedzeniem.",
+    "Override": 0,
+    "LSide": {
+      "Locations": [
+        {
+            "Id": "Anywhere",
+            "Characters": [
+                {
+                    "Name": "Main_hero",
+                    "IsObject": true
+                },
+                {
+                    "Name": "Guard"
+                }
+            ]
+        }
+    ]
+  },
+    "RSide": {},
+    "Preconditions": [{
+      "Cond": "Hero.money >= 10"
+      //Czy da się wpisać wartość \"na sztywno\"
+      }],
+    "Instructions": [
+      { "Op":"set", "Attribute":"Hero.Money", "Expr": "Hero.Money - 10"}
+    ]
+  },
+  {
+    "Title": "Giving an item to a Guard (Mutton_Chop)/ Przekazanie przedmiotu stranikowi.",
+    "TitleGeneric": "Item acquisition from another character / Przejęcie przedmiotu od innej postaci",
+    "Description": "Oddanie przedmiotu Strażnikowi.",
+    "Override": 0,
+    "LSide": {
+      "Locations": [
+        {
+            "Id": "Anywhere",
+            "Characters": [
+                {
+                    "Name": "Main_hero",
+                    //"IsObject": true,
+                    "Items": [{
+                        "Id":"Rzecz_do_przekazania"
+                        //MuttonChop & Alkohol
+                    }]
+                },
+                {
+                    "Name": "Guard"
+                }
+            ]
+        }
+      ]
+    },
+    "RSide": {},
+    "Instructions": [
+      {"Op": "move", "Node":"Rzecz_do_przekazania","To":"Guard/Items"}
+    ]
+  },
+  {
+    "Title": "Taking Brother out / Uwolnienie Brata",
+    "TitleGeneric": "Teleportation / Teleportacja",
+    "Description": "Zajeci flaszką strażnicy nawet nie zauważają, że coś jest nie tak. Z dala od więzienia, więzień jest bezpieczny",
+    "Override": 0,
+    "LSide": {
+      "Locations": [
+      {
+          "Id": "Prison",
+          "Characters": [
+              {
+                  "Name": "Brother",
+                  //"IsObject": true,
+              },
+              {
+                  "Name": "Guard",
+                  "IsDrunk": true,
+              }
+          ]
+      }
+    ]},
+    "RSide": {},
+    "Instructions": [
+      {"Op":"move","Nodes":"Brother","To": "Port/Characters"}
+    ]
+  },
+  {
+    "Title": "Bribing a Guard in order to release Brother / Przekupienie straznika w celu uwolnienia Brata.",
+    "TitleGeneric": "Item acquisition from another character / Przejęcie przedmiotu od innej postaci",
+    "Description": "Każdego można kupić. Odpowiednia suma pieniędzy zapewnia chwilową \"ślepotę\" strażników",
+    "Override": 0,
+    "LSide": {
+      "Locations": [
+        {
+            "Id": "Anywhere",
+            "Characters": [
+                {
+                    "Name": "Main_hero",
+                    //"IsObject": true
+                },
+                {
+                    "Name": "Guard"
+                }
+            ]
+        }
+    ]
+    },
+    "RSide": {},
+    "Preconditions": [{
+      "cond": "Hero.money >= 200"
+      //Czy da się wpisać wartość \"na sztywno\"
+      }],
+    "Instructions": [
+      { "Op":"set", "Attribute":"Hero.Money", "Expr": "Hero.Money - 200"},
+      {
+        "Op": "create",
+        "In": "Main_hero/Narration",
+        "Sheaf": {
+          "Name": "Guards_bribe",
+          "Attributes": {
+            "Knowledge": "Strażnicy zostali przekupieni",
+            "Level": 1 //Co tutaj??
+          }
+        }
+      }
+    ]
+  },
+  {
+    "Title": "Taking Brother after bribery / Uwolnienie Brata po przekupstwie.",
+    "TitleGeneric": "Teleportation / Teleportacja",
+    "Description": "Przekupieni strażnicy \"przypadkiem\" pozostawiają drzwi celi otwarte. Brat wreszcie jest wolny i w bezpiecznym miejscu.",
+    "Override": 0,
+    "LSide": {"Locations": [
+      {
+          "Id": "Prison",
+          "Characters": [
+              {
+                  "Name": "Main_hero",
+                  //"IsObject": true
+
+              },
+              {
+                  "Name": "Guard"
+              }
+          ],
+          "Narration": [
+              {
+                  "Name": "Strażnicy zostali przekupieni",
+              }
+          ]
+          //Checking if guards have been bribed
+      }
+  ]},
+    "RSide": {},
+    "Instructions": [
+      {"Op":"move","Nodes":"Brother","To": "Port/Characters"}
+    ]
+  },
+  {
+    "Title": "Taking Brother without using alcohol / Uwolnienie Brata bez użycia alkoholu.",
+    "TitleGeneric": "Teleportation / Teleportacja",
+    "Description": "Sama drabinka linowa, choć pomocna, to było za mało. Bratu udaje się uciec, ale jest dodatkowo poobijany.",
+    "Override": 0,
+    "LSide": {},
+    "RSide": {},
+    "Instructions": [
+      {"Op":"move","Nodes":"Brother","To": "Port/Characters"},
+      {"Op":"set", "Attribute":"Brother.Health", "Expr": "Brother.Health - 50"}
+    ]
+  },
+  {
+    "Title": "Wyjście obu z więzienia, gdy zabilismy wszystkich strażników / Leaving prison after all Guards are Dead.",
+    "TitleGeneric": "Teleportation / Teleportacja",
+    "Description": "Teraz nikt nie może Ci przeszkodzić w wyciągnięciu więźnia. Po całym dniu mordwania, Brat wreszcie jest wolny.",
+    "Override": 0,
+    "LSide": {
+      "Locations": [
+        {
+            "Id": "Prison",
+            "Characters": [
+                {
+                    "Name": "Main_hero",
+                    //"IsObject": true
+                }
+            ]
+        }
+    ]
+    },
+    "RSide": {},
+    "Preconditions": [{
+      //czy obiektów o nazwie guard jest max 0.
+    }],
+    "Instructions": [
+      {"Op":"move","Nodes":"Brother","To": "Port/Characters"}
+    ]
+  },
+]
+
+//////To ma byc gdzies Dodane
+//Jesli ma być dodane w świecie to nie ma sensu tego dodawać gdziekolwiek
+// OBiekt ma już takie pole
+{
+   "Op":"create",
+   "In":"Bandit/Narration",
+   "Sheaf":{
+      "Name":"IsBrotherOfMainHero",
+      "Attributes":{
+         "Knowledge":"Bandyta uratowany z więzienia jest bratem głównego bohatera"
+      }
+   }
+}
+
+"Narration": [
+    {
+      "Name": "In_debt_to_miss",
+      "Attributes": {
+        "Knowledge": "Mam dług u Karczmarki. Powinienem się do niej zgłosić."
+      },
+      "Characters": [],
+      "Items": []
+    }
+],

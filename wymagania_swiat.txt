@@ -1,0 +1,67 @@
+Wymagania świata - grupa 19
+
+-> Bandit
+	-> więzień w więzieniu
+	-> musi istnieć węzel narracyjny, że jest bratem glownego bohatera
+
+		//////To ma byc gdzies Dodane
+		//Jesli ma być dodane w świecie to nie ma sensu tego dodawać gdziekolwiek
+		// OBiekt ma już takie pole
+		{
+		   "Op":"create",
+		   "In":"Bandit/Narration",
+		   "Sheaf":{
+		      "Name":"IsBrotherOfMainHero",
+		      "Attributes":{
+			 "Knowledge":"Bandyta uratowany z więzienia jest bratem głównego bohatera"
+		      }
+		   }
+		}
+
+-> Advertising collumn
+	-> tablica ogloszeń
+	-> umieszczona w Porcie
+	-> Ogloszenia:
+		-> o pojmaniu brata, info, że siedzi w wiezieniu
+		-> o mozliwości dosarczenia paczek z jedzeniem dla więźniów
+
+			"Instructions": [
+		      {
+		        "Op": "copy",
+		        "In": "Main_hero/Narration",
+		        "Sheaf": {
+		            "Name": "Brother_quest_start_active",
+		            "Attributes": {
+		                "Knowledge": "Brat siedzi w więzieniu. Trzeba go wydostać."
+		            }
+		        }
+		    },
+		    //Przekazanie Węzła narracyjnego. Cel misji.
+		    //Węzły muszą zostać stworzone w świecie.
+		    {
+		      "Op": "copy",
+		      "In": "Main_hero/Narration",
+		      "Sheaf": {
+		          "Name": "Tavern_hint",
+		          "Attributes": {
+		              "Knowledge": "Możliwość dostarczenia posiłków dla więznia za opłatą, może okazać się pomocna."
+		          }
+		      }
+		  }
+		  //Przekazanie Węzła narracyjnego. Cel misji.
+		  //Węzły muszą zostać stworzone w świecie.
+		  //Informacja o możliwości udzielenia pomocy.
+		]
+
+
+
+-> Karczmarka "Miss"
+	-> Posiada Mutton_chop, File (pilnik), Alcohol
+	-> Alcohl musi mieć cene (5 gold)
+
+-> Główny bohater
+	-> zaczyna w Porcie
+	-> musi posiadac małą ilość zlota ok 30g
+
+-> W więzieniu muszą być Strażnicy
+	-> Musimy też mieć wiedzę, że strażnik od czasu do czasu wychodzi na drogę. (chyba można go tam umieścić).

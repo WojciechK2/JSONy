@@ -1,0 +1,17 @@
+Hero gains knowledge about capturing his brother while reading the / Bohater zdobywa wiedzę o uwięzieniu jego brata podczas czytania tablicy ogloszeń.
+
+BASIC PATH:
+Convincing a Maid/ Przekonanie Karczmarki.
+Bribing a guard in order to get they attention / Przekupienie straznika w celu zwrocenia uwagi.
+Giving an item to a Guard / Przekazanie przedmiotu stranikowi.
+Taking Brother out / Uwolnienie Brata
+
+BRIBERY:
+Bribing a Guard in order to release Brother / Przekupienie straznika w celu uwolnienia Brata.
+Taking Brother after bribery / Uwolnienie Brata po wpłaceniu gotowki.
+
+ALT:
+Taking Brother without using alcohol / Uwolnienie Brata bez użycia alkoholu.
+
+ALT2:
+Wyjście obu z więzienia, gdy zabilismy wszystkich strażników / Leaving prison after all Guards are Dead.

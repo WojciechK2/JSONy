@@ -1,0 +1,162 @@
+[
+  {
+    "Title": "Hero gains knowledge about capturing his brother while reading the / Bohater zdobywa wiedzę o uwięzieniu jego brata podczas czytania tablicy ogloszeń.",
+    "TitleGeneric": "Knowledge creation / Utworzenie wiedzy fabularnej",
+    "Description": "Tablica ogoszeń zawiera listę ostatnio aresztowanych przestępców. Serce zamiera kiedy pomiędzy imionami i nazwiskami odnajdujesz swojego brata. Niech ktoś... Trzeba działać. Może informacja o możliwości dostarczenia posiłków z karczmy za opłatą okaże się pomocna.",
+    "Override": 0,
+    "LSide": {
+        "Locations": [
+            //Musi się to dziać w porcie przy tablicy ogłoszeń
+            "Name":"Port",
+            "Items": [{ //Tablica ogoszen w lokacji Port
+              "Name": "Bulletin Board" //TODO: add a bulletin board to the set
+              }]
+        ]
+    },
+    "RSide": {},
+    "Instructions": []
+    //Utworzenie wiedzy, o misji
+  },
+{
+  "Title": "Convincing a Maid/ Przekonanie Karczmarki",
+  "TitleGeneric": "Item creation / Utworzenie przedmiotu",
+  "Description": "Main_hero spotyka Maid, którą przekonuje do pomocy w uwolnieniu brata. Karczmarka przygotowuje pakunek który ma zostać dostarczony do więźnia.",
+  "Override": 0,
+  "LSide": {
+      "Locations": [
+          {
+              "Id": "Inn",
+              "Characters": [
+                  {
+                      "Name": "Main_hero",
+                      "IsObject": true
+                  },
+                  {
+                      "Name": "Miss"
+                  }
+              ]
+          }
+      ]
+  },
+  "RSide": {},
+  "Instructions": [
+      {
+          "Op": "create",
+          "In": "Main_hero/Characters",
+          "Sheaf": {
+              "Name": "Mutton_Chop",
+              "Attributes": {
+                  "Knowledge": "Pakunek pomoże w wydostaniu brata z więzienia."
+              }
+          }
+          //TODO: zrobić przedmiot w przedmiocie, drabinka sznurowa w posiłku
+      },
+      {
+        "Op": "create",
+        "In": "Main_hero/Narration",
+        "Sheaf": {
+          "Name": "Miss_debt", //TODO: sprawdzić jak druga grupa to nazwała
+          "Attributes": {
+            "Knowledge": "Karczmarka ma u Ciebie dług wdzięczności",
+            "Level": 1
+          }
+        }
+      }
+  ]
+  //Karczmarka moze tez zasugerowac kupno alkoholu
+},
+{
+  "Title": "Bribing a Guard / Przekupienie strażnika",
+  "TitleGeneric": "Item acquisition from another character / Przejęcie przedmiotu od innej postaci",
+  "Description": "Zwrócenie uwagi strażnika łapowką",
+  "Override": 0,
+  "LSide": {
+      "Locations": [
+          {
+              "Id": "Prison",
+              "Characters": [
+                  {
+                      "Name": "Main_hero",
+                      "IsObject": true,
+
+                  },
+                  {
+                      "Name": "Guard"
+                  }
+              ]
+          }
+      ]
+  },
+  "RSide": {},
+  "Instructions": [
+      {
+        {
+        //TODO przekazanie zlota straznikowi
+        "Op": "move",
+        "Nodes": "Package",
+        "To": "Guard/Characters"
+        },
+      }
+      //TODO: Narration: Zwrócenie uwagi strażnika / zyskanie przychylności
+  ]
+},
+{
+  "Title": "Giving an Item to a Guard/ Przekaznie przedmiotu Strażnikowi",
+  "TitleGeneric": "Item acquisition from another character / Przejęcie przedmiotu od innej postaci",
+  "Description": "Przekazanie przedmiotu Strażnikowi.",
+  "Override": 0,
+  "LSide": {
+      "Locations": [
+          {
+              "Id": "Anywhere",
+              "Characters": [
+                  {
+                      "Name": "Main_hero",
+                      "IsObject": true,
+
+                  },
+                  {
+                      "Name": "Guard"
+                  }
+              ]
+          }
+      ]
+  },
+  "RSide": {},
+  "Instructions": [
+      {
+        {
+        "Op": "move",
+        "Nodes": "Package",
+        "To": "Guard/Characters"
+        },
+      }
+      //Tu trzeba zrobić albo Mutton_Chop albo Alcohol
+  ]
+},
+{
+  "Title": "Taking Brother out of Prison / Wydobycie brata z więzienia.",
+  "TitleGeneric": "Location change / Zmiana lokacji",
+  "Description": "Odprowadzenie Brata poza więzienie",
+  "Override": 0,
+  "LSide": {
+      "Locations": [
+          {
+              "Id": "Prison",
+              "Characters": [
+                  {
+                      "Name": "Main_hero",
+                      "IsObject": true
+                  },
+                  {
+                      "Name": "Brother"
+                  }
+              ]
+          }
+      ]
+  },
+  "RSide": {},
+  "Instructions": []
+  //Both of those have to be moved to somewhere else
+}
+]
